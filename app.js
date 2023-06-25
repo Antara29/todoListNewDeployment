@@ -12,7 +12,9 @@ var inputs = [];
 var workInputs = [];
 
 app.get("/", function(req, res){
-    let day = date();
+    //let day = date();
+    //let day = date.getDate();
+    let day = date.getDay();
     res.render("list", {kindOfDay: day, newItem: inputs});
 })
 
