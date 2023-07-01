@@ -9,12 +9,22 @@
             <li>Cook Food</li>
             <li>Eat Food</li> -->
 
-            <% for(var i=0; i<newItem.length; i++) {%>
+            <!-- <% for(var i=0; i<newItem.length; i++) {%>
                 <div class="item">
                     <input type="checkbox">
-                    <p> <%= newItem[i] %></p>
+                    <p> <%= newItem[i].name %></p>
                 </div>    
-                <% } %>
+                <% } %> -->
+
+            <% newItem.forEach(function(element){ %>
+                <form action="/delete" method="post">
+                <div class="item">
+                    <input type="checkbox" name="checkbox" value="<%= element._id%>" onChange="this.form.submit()">
+                    <p> <%= element.name %></p>
+                </div>
+                <input type="hidden" name="hidden" value="<%= kindOfDay%>">
+            </form>
+            <% }) %>
 
            <form class="item" action="/" method="post">
                 <input type="text" name="t1" placeholder="New Item" autocomplete="off">
