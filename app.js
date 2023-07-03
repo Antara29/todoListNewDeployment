@@ -92,6 +92,7 @@ app.post("/", function(request, response){
 
     const item = new Item({name: input});
     if(listName === "Today"){
+        console.log(listName);
         item.save();
         response.redirect("/");
     }
