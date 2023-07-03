@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 // const date = require(__dirname+"/date.js");
@@ -12,7 +13,16 @@ app.use(express.static("public"));
 app.set('view engine', 'ejs');
 
 // mongoose.connect("mongodb://localhost:27017/todolistDB");
-mongoose.connect("mongodb+srv://antaramahmudva:Test123@cluster0.berhpo8.mongodb.net/todolistDB")
+mongoose.set('strictQuery', false);
+const connectDB = async ()=>{
+    try{
+        const conn = await mongoose.connect(process.env.MONGO_URI);
+        console.log("MongoDB Connected");
+    } catch(error){
+        console.log(error);
+    }
+}
+
 const itemsSchema = mongoose.Schema({
     name: String
 });
@@ -142,6 +152,10 @@ app.post("/delete", function(req, res){
 let port = process.env.PORT;
 if(port == null || port ==""){
     port = 3000;
-}app.listen(port, function(){
-    console.log("Server running on port 3000");
-})
+}
+
+connectDB().then(() => {
+    app.listen(port, function(){
+        console.log("Server running on port 3000");
+    })
+});
