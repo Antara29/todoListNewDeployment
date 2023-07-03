@@ -11,8 +11,8 @@ app.use(express.static("public"));
 
 app.set('view engine', 'ejs');
 
-mongoose.connect("mongodb://localhost:27017/todolistDB");
-
+// mongoose.connect("mongodb://localhost:27017/todolistDB");
+mongoose.connect("mongodb+srv://antaramahmudva:Test123@cluster0.berhpo8.mongodb.net/todolistDB")
 const itemsSchema = mongoose.Schema({
     name: String
 });
@@ -92,9 +92,11 @@ app.post("/", function(request, response){
 
     const item = new Item({name: input});
     if(listName === "Today"){
-        console.log(listName);
-        item.save();
-        response.redirect("/");
+        item.save().then(() => {
+            response.redirect("/");
+        }).catch((err) => {
+            console.log(err);
+        });
     }
     else{
         List.findOne({name: listName}).then(function(foundList){
